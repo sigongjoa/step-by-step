@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수학 실수를 줄이는 나만의 뇌과학 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fef3c7 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 80%;
+        }
+    </style>
+</head>
+
+<body class="bg-blue-50/50 text-slate-800">
+
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside
+            class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col fixed h-full z-10 transition-all duration-300">
+            <div class="p-6 border-b border-slate-800">
+                <h1 class="text-xl font-black tracking-tighter text-indigo-400">Edu-Logic Lab</h1>
+                <p class="text-xs text-slate-500 mt-1">인지적 오류 교정 시스템</p>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="index.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>🏠</span> <span class="font-bold text-sm">대시보드 (Home)</span>
+                </a>
+                <a href="student-guide.html"
+                    class="flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-xl shadow-lg shadow-blue-900/50 transition-all">
+                    <span>🧠</span> <span class="font-bold text-sm">학생용 뇌과학 가이드</span>
+                </a>
+                <a href="teacher-guide.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>👨‍🏫</span> <span class="font-bold text-sm">교사용 지도 가이드</span>
+                </a>
+                <a href="correction-note.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>📝</span> <span class="font-bold text-sm">인지 교정 오답노트</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800 text-center">
+                <p class="text-[10px] text-slate-600">v1.0.0 Prototype</p>
+                <p class="text-[10px] text-slate-600">© 2026 Mathesis Lab</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+
+            <!-- Mobile Header -->
+            <header
+                class="md:hidden h-16 bg-slate-900 text-white flex items-center justify-between px-4 sticky top-0 z-50">
+                <span class="font-black text-indigo-400">Edu-Logic Lab</span>
+                <button class="text-sm border border-slate-700 px-2 py-1 rounded">Menu</button>
+            </header>
+
+            <!-- Top Bar -->
+            <header
+                class="h-16 bg-white border-b border-slate-200 hidden md:flex items-center justify-between px-8 sticky top-0 z-40">
+                <div class="text-sm font-medium text-slate-400">
+                    Project > <span class="text-slate-800">Student Guide</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">For Students</span>
+                </div>
+            </header>
+
+            <!-- Original Page Content Wrapped -->
+            <div class="p-4 md:p-8 max-w-5xl mx-auto w-full">
+
+                <!-- Header -->
+                <header class="text-center mb-12 mt-4">
+                    <h1 class="text-3xl md:text-4xl font-black text-slate-800 mb-4">"아는데 틀린 게 아니라, <br
+                            class="md:hidden"><span class="text-blue-600">뇌의 습관</span> 때문이야!"</h1>
+                    <p class="text-lg text-slate-500">덤벙거리는 습관을 고쳐주는 과학적인 비밀 노트를 공개할게.</p>
+                </header>
+
+                <!-- Navigation Tabs -->
+                <nav class="flex flex-wrap justify-center gap-2 mb-10">
+                    <button onclick="showTab('reason')"
+                        class="tab-btn px-6 py-2 rounded-full font-bold bg-blue-600 text-white shadow-md transition-all border border-blue-600">1.
+                        왜 자꾸 틀릴까 (원인)</button>
+                    <button onclick="showTab('science')"
+                        class="tab-btn px-6 py-2 rounded-full font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">2.
+                        뇌의 비밀 (과학)</button>
+                    <button onclick="showTab('strategy')"
+                        class="tab-btn px-6 py-2 rounded-full font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">3.
+                        해결 무기 (전략)</button>
+                    <button onclick="showTab('program')"
+                        class="tab-btn px-6 py-2 rounded-full font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">4.
+                        나를 돕는 시스템</button>
+                </nav>
+
+                <!-- Section 1: Why -->
+                <div id="reason" class="tab-content active space-y-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6">🤔 "분명히 아는 건데... 왜 틀렸지?"</h2>
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <p class="text-lg leading-relaxed mb-4">
+                                    시험지를 받고 나서 "아, 이거 아는 건데!"라고 후회한 적 많지? <br>
+                                    이건 네 실력이 부족해서가 아니라, 우리 뇌의 <span class="highlight font-bold text-slate-800">'지름길
+                                        찾기'</span> 습관 때문이야.
+                                </p>
+                                <ul class="space-y-4">
+                                    <li class="flex items-start gap-3">
+                                        <span class="bg-red-100 text-red-600 p-1 rounded font-bold text-sm">Case
+                                            1</span>
+                                        <p class="text-slate-600">문제를 끝까지 안 읽고 "아, 이거 그거네!" 하고 바로 계산부터 시작함.</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="bg-orange-100 text-orange-600 p-1 rounded font-bold text-sm">Case
+                                            2</span>
+                                        <p class="text-slate-600">숫자만 보고 '더해야지'라고 생각했는데, 사실은 '차이'를 구하는 문제였음.</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span class="bg-blue-100 text-blue-600 p-1 rounded font-bold text-sm">Case
+                                            3</span>
+                                        <p class="text-slate-600">중간 계산은 다 맞았는데, 문제에서 묻는 마지막 질문을 잊어버림.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-2xl">
+                                <h3 class="text-center font-bold text-slate-600 mb-4 italic">덤벙거림 지수 분석</h3>
+                                <div class="chart-container">
+                                    <canvas id="impulseRadarChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Science -->
+                <div id="science" class="tab-content space-y-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6">🧠 내 머릿속에서 일어나는 일</h2>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="p-6 bg-blue-50 rounded-2xl">
+                                <h3 class="font-bold text-blue-800 text-lg mb-2">1. 억제 제어의 부재</h3>
+                                <p class="text-sm text-blue-700 leading-relaxed">뇌의 '브레이크'가 아직 덜 자라서 그래. 답을 빨리 쓰고 싶은 충동을
+                                    이기지 못하는 거야.</p>
+                            </div>
+                            <div class="p-6 bg-amber-50 rounded-2xl">
+                                <h3 class="font-bold text-amber-800 text-lg mb-2">2. 작업 기억의 한계</h3>
+                                <p class="text-sm text-amber-700 leading-relaxed">우리 뇌의 '메모장'은 용량이 작아. 한꺼번에 너무 많은 걸 생각하면
+                                    중요한 정보가 지워져 버려.</p>
+                            </div>
+                            <div class="p-6 bg-green-50 rounded-2xl">
+                                <h3 class="font-bold text-green-800 text-lg mb-2">3. 도식(Schema) 부족</h3>
+                                <p class="text-sm text-green-700 leading-relaxed">문제를 읽고 머릿속으로 '그림'을 그리지 않고 글자만 읽으면, 뇌는
+                                    정보의 길을 잃게 돼.</p>
+                            </div>
+                        </div>
+                        <div class="mt-10 p-6 border-t border-slate-100 text-center">
+                            <p class="text-slate-500 italic">"과학적으로 증명된 사실! 실수는 습관이 아니라 뇌의 처리 방식의 문제입니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Strategy -->
+                <div id="strategy" class="tab-content space-y-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6">🛡️ 실수를 막아주는 마법의 무기</h2>
+                        <div class="space-y-8">
+                            <div class="flex flex-col md:flex-row gap-8 items-center">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-slate-800 mb-4">1. FAST DRAW 전략</h3>
+                                    <p class="text-slate-600 mb-4">수학 고수들이 몰래 쓰는 순서야. 이걸 따르면 절대 길을 잃지 않아.</p>
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-blue-500">
+                                            <strong>Find:</strong> 무엇을 구하나?</div>
+                                        <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-blue-500">
+                                            <strong>Analyze:</strong> 단서를 찾아라</div>
+                                        <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-blue-500">
+                                            <strong>Solve:</strong> 식을 세워라</div>
+                                        <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-blue-500">
+                                            <strong>Wait:</strong> 답이 맞나 확인!</div>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-slate-800 mb-4">2. SBI (도식 기반 교수)</h3>
+                                    <p class="text-slate-600 mb-4">모든 수학 문제는 몇 가지 '틀' 안에 있어. 그 틀만 알면 문제는 껌이지!</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span
+                                            class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-bold">#합치기</span>
+                                        <span
+                                            class="px-3 py-1 bg-green-100 text-green-700 rounded-full font-bold">#비교하기</span>
+                                        <span
+                                            class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full font-bold">#변화하기</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Program -->
+                <div id="program" class="tab-content space-y-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6">💻 나를 도와주는 지능형 시스템</h2>
+                        <div class="bg-slate-900 rounded-2xl p-6 text-white mb-10">
+                            <h3 class="text-blue-400 font-bold mb-4">"너의 뇌에 비계(Scaffolding)를 설치해줄게"</h3>
+                            <p class="text-slate-300 leading-relaxed mb-6">
+                                프로그램이 너를 억지로 공부시키는 게 아니야. <br>
+                                네 뇌가 깜빡하고 건너뛰는 <span class="text-blue-400 font-bold">'사고의 단계'</span>를 시스템이 대신 지켜주는 거야.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                                    <div
+                                        class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">
+                                        1</div>
+                                    <div>
+                                        <h4 class="font-bold">유형 분류 의무화</h4>
+                                        <p class="text-xs text-slate-500">계산부터 하지 말고, 어떤 유형인지 먼저 골라야 다음 단계로 넘어가!</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                                    <div
+                                        class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">
+                                        2</div>
+                                    <div>
+                                        <h4 class="font-bold">쪼개진 입력창</h4>
+                                        <p class="text-xs text-slate-500">구하는 것, 단서, 식, 정답을 순서대로 하나씩 입력하게 도와줄게.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">
+                                        3</div>
+                                    <div>
+                                        <h4 class="font-bold">지능형 오답 리포트</h4>
+                                        <p class="text-xs text-slate-500">네가 어느 단계에서 가장 많이 멈추는지 알려주고, 그 부분만 훈련시켜줘.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <h3 class="text-lg font-bold text-slate-700 mb-6">전략 프로그램 사용 시 정확도 변화</h3>
+                            <div class="chart-container">
+                                <canvas id="impactBarChart"></canvas>
+                            </div>
+                            <p class="mt-4 text-sm text-slate-500">실제로 이 시스템을 사용하면 실수가 약 70% 줄어들 수 있어!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="mt-20 py-10 text-center border-t border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">이제 "아깝게 틀리는 일"은 없을 거야!</h2>
+                    <a href="correction-note.html"
+                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-2xl shadow-xl transition-all transform hover:scale-105">
+                        지금 내 뇌과학 리포트 확인하기
+                    </a>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- Tab Logic ---
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+            });
+            // Show target tab
+            document.getElementById(tabId).classList.add('active');
+            // Activate button
+            event.currentTarget.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            event.currentTarget.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+        }
+
+        // --- Charts Implementation ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Radar Chart: Student Profile (Implicit Brain Behavior)
+            const ctxRadar = document.getElementById('impulseRadarChart').getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['계산 속도', '침착함', '꼼꼼함', '그림 그리기', '마지막 확인'],
+                    datasets: [{
+                        label: '평소의 나 (덤벙거릴 때)',
+                        data: [95, 30, 25, 20, 15],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        pointBackgroundColor: 'rgba(239, 68, 68, 1)',
+                    }, {
+                        label: '시스템을 쓸 때',
+                        data: [70, 85, 90, 80, 95],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: { font: { size: 11, family: "'Noto Sans KR'" }, color: '#64748b' },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // 2. Bar Chart: Success Rate
+            const ctxBar = document.getElementById('impactBarChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['일반 문제', '긴 문장 문제', '여러 단계 문제'],
+                    datasets: [{
+                        label: '그냥 풀었을 때 (정답률)',
+                        data: [85, 40, 25],
+                        backgroundColor: '#cbd5e1',
+                        borderRadius: 6
+                    }, {
+                        label: '시스템과 함께 풀 때',
+                        data: [92, 85, 80],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: '성공 확률 (%)', font: { size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

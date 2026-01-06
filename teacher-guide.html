@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교사용 지도 가이드: 수학적 사고 코칭 전략</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 300px;
+            max-height: 350px;
+        }
+
+        .instruction-card {
+            transition: transform 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .instruction-card:hover {
+            transform: translateX(5px);
+        }
+
+        .do-card {
+            border-left-color: #10b981;
+        }
+
+        .dont-card {
+            border-left-color: #ef4444;
+        }
+
+        .protocol-step {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .protocol-step::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #3b82f6;
+            color: white;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside
+            class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col fixed h-full z-10 transition-all duration-300">
+            <div class="p-6 border-b border-slate-800">
+                <h1 class="text-xl font-black tracking-tighter text-indigo-400">Edu-Logic Lab</h1>
+                <p class="text-xs text-slate-500 mt-1">인지적 오류 교정 시스템</p>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="index.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>🏠</span> <span class="font-bold text-sm">대시보드 (Home)</span>
+                </a>
+                <a href="student-guide.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>🧠</span> <span class="font-bold text-sm">학생용 뇌과학 가이드</span>
+                </a>
+                <a href="teacher-guide.html"
+                    class="flex items-center gap-3 px-4 py-3 bg-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-900/50 transition-all">
+                    <span>👨‍🏫</span> <span class="font-bold text-sm">교사용 지도 가이드</span>
+                </a>
+                <a href="correction-note.html"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+                    <span>📝</span> <span class="font-bold text-sm">인지 교정 오답노트</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800 text-center">
+                <p class="text-[10px] text-slate-600">v1.0.0 Prototype</p>
+                <p class="text-[10px] text-slate-600">© 2026 Mathesis Lab</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+
+            <!-- Mobile Header -->
+            <header
+                class="md:hidden h-16 bg-slate-900 text-white flex items-center justify-between px-4 sticky top-0 z-50">
+                <span class="font-black text-indigo-400">Edu-Logic Lab</span>
+                <button class="text-sm border border-slate-700 px-2 py-1 rounded">Menu</button>
+            </header>
+
+            <!-- Top Bar -->
+            <header
+                class="h-16 bg-white border-b border-slate-200 hidden md:flex items-center justify-between px-8 sticky top-0 z-40">
+                <div class="text-sm font-medium text-slate-400">
+                    Project > <span class="text-slate-800">Teacher's Guide</span>
+                </div>
+                <!-- Top Nav Placeholder -->
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">For
+                        Educators</span>
+                </div>
+            </header>
+
+            <!-- Original Page Content Wrapped -->
+            <div class="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-10">
+
+                <!-- Internal Header from original file -->
+                <header
+                    class="bg-white border text-center md:text-left border-gray-200 py-8 px-6 rounded-3xl shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-full -mr-16 -mt-16 opacity-50">
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+                        <div>
+                            <span class="text-emerald-600 font-bold text-sm uppercase tracking-widest">Teacher's
+                                Edition</span>
+                            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mt-1">수학적 사고 교정: 지도 가이드</h1>
+                            <p class="text-gray-500 mt-2">학생의 덤벙거림을 치료하는 시스템적 교수법과 주의사항</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-end">
+                            <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium">대상: 초등 교사 및
+                                학부모</span>
+                            <span class="bg-orange-100 text-orange-700 px-4 py-2 rounded-lg text-sm font-medium">핵심:
+                                Process Scaffolding</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Core Content -->
+                <section class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">💡 지도 철학의 전환</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            교사는 답을 알려주는 사람이 아니라, 학생의 머릿속에 <strong>'사고의 필터'</strong>를 설치해주는 사람이어야 합니다. 덤벙대는 아이들은 필터 없이
+                            데이터를 바로 결과로 출력하기 때문입니다.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 bg-red-50 rounded-xl">
+                                <div class="text-2xl mr-4">❌</div>
+                                <div>
+                                    <p class="text-xs text-red-400 font-bold">Traditional Approach</p>
+                                    <p class="text-gray-700 font-medium">"문제를 똑바로 읽어라", "검산해라"</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-green-50 rounded-xl">
+                                <div class="text-2xl mr-4">✅</div>
+                                <div>
+                                    <p class="text-xs text-green-400 font-bold">Scaffolding Approach</p>
+                                    <p class="text-gray-700 font-medium">"이 문제는 어떤 유형이니?", "무엇을 구해야 할까?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full text-center">
+                        <h3 class="text-lg font-bold text-gray-700 mb-4">비계(Scaffolding)에 따른 인지 부하 변화</h3>
+                        <div class="chart-container">
+                            <canvas id="loadChart"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4 leading-relaxed">
+                            적절한 비계가 제공될 때 학생은 과제의 '난이도'에 압도되지 않고,<br>
+                            순차적으로 문제를 해결하며 성공 경험을 쌓습니다.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="bg-blue-600 rounded-3xl p-8 md:p-12 text-white shadow-xl shadow-blue-200">
+                    <h2 class="text-3xl font-bold mb-8">🗣️ 생각 소리 내어 말하기 (Thinking Aloud)</h2>
+                    <p class="mb-10 text-blue-100">교사가 직접 문제를 풀며 자신의 '내면적 대화'를 학생에게 들려주세요. 이것이 최고의 시각화 도구입니다.</p>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-blue-700/50 p-6 rounded-2xl border border-blue-400/30">
+                            <div class="text-3xl mb-4">🔍</div>
+                            <h4 class="font-bold mb-2">1. 텍스트 스캔</h4>
+                            <p class="text-sm text-blue-100 leading-relaxed">"자, 선생님이 문제를 처음 볼 때 가장 먼저 하는 건 숫자가 아니라 단어
+                                찾기야. '더 적게'라는 말이 있네?"</p>
+                        </div>
+                        <div class="bg-blue-700/50 p-6 rounded-2xl border border-blue-400/30">
+                            <div class="text-3xl mb-4">🗺️</div>
+                            <h4 class="font-bold mb-2">2. 지도 그리기</h4>
+                            <p class="text-sm text-blue-100 leading-relaxed">"이건 비교하기 문제구나. 민수는 큰 상자, 영희는 작은 상자로 그려볼까?"
+                            </p>
+                        </div>
+                        <div class="bg-blue-700/50 p-6 rounded-2xl border border-blue-400/30">
+                            <div class="text-3xl mb-4">🎯</div>
+                            <h4 class="font-bold mb-2">3. 목표 고정</h4>
+                            <p class="text-sm text-blue-100 leading-relaxed">"문제가 최종적으로 묻는 건 '모두'니까, 두 상자를 마지막에 합쳐야겠어."
+                            </p>
+                        </div>
+                        <div class="bg-blue-700/50 p-6 rounded-2xl border border-blue-400/30">
+                            <div class="text-3xl mb-4">🛡️</div>
+                            <h4 class="font-bold mb-2">4. 자기 점검</h4>
+                            <p class="text-sm text-blue-100 leading-relaxed">"답이 9가 나왔는데, 민수보다 적은지 확인해볼까? 15보다 작으니 괜찮네!"
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800">📊 오답 유형 진단 및 처방</h2>
+                        <p class="text-gray-600 mt-2">모든 실수는 똑같지 않습니다. 데이터에 기반하여 정밀 타격하세요.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-start">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-700 mb-6 text-center">오답 원인 분포 (통계적 추정)</h3>
+                            <div class="chart-container">
+                                <canvas id="errorDoughnutChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div
+                                class="bg-white p-5 rounded-xl border border-l-4 border-l-yellow-400 shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="font-bold text-gray-800">유형 1: Schema-Missing (도식 부재)</h4>
+                                <p class="text-sm text-gray-600 mt-1">문제의 상황을 이해하지 못하고 눈에 보이는 숫자만 조합함.</p>
+                                <p class="text-xs text-blue-600 mt-2 font-bold">처방: "이 상황을 그림으로 그려볼 수 있니?"</p>
+                            </div>
+                            <div
+                                class="bg-white p-5 rounded-xl border border-l-4 border-l-red-400 shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="font-bold text-gray-800">유형 2: Goal-Drift (목표 상실)</h4>
+                                <p class="text-sm text-gray-600 mt-1">중간 계산(영희 사탕)은 맞았으나, 최종 질문(합계)을 잊음.</p>
+                                <p class="text-xs text-blue-600 mt-2 font-bold">처방: "우리가 마지막으로 구해야 하는 것이 무엇이었지?"</p>
+                            </div>
+                            <div
+                                class="bg-white p-5 rounded-xl border border-l-4 border-l-blue-400 shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="font-bold text-gray-800">유형 3: Operational Error (단순 연산)</h4>
+                                <p class="text-sm text-gray-600 mt-1">식은 맞았으나 더하기/빼기 과정에서 실수함.</p>
+                                <p class="text-xs text-blue-600 mt-2 font-bold">처방: "식은 완벽해! 연산만 한 번 다시 확인해볼까?"</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="warnings">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800">⚠️ 교사가 피해야 할 3가지 함정</h2>
+                        <p class="text-gray-600 mt-2">의욕이 앞선 지도가 오히려 학생의 사고를 방해할 수 있습니다.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div
+                            class="instruction-card dont-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <span class="text-red-500 font-bold text-xs uppercase">Trap 01</span>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">조급한 힌트 제공</h4>
+                            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+                                학생이 10초만 고민해도 바로 "더해야지!"라고 말해버리는 것입니다. 이는 학생의 <strong>전두엽 발달 기회</strong>를 박탈합니다.
+                            </p>
+                            <div class="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-500 italic">
+                                대안: "어떤 정보를 먼저 활용하면 좋을까?"
+                            </div>
+                        </div>
+                        <div
+                            class="instruction-card dont-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <span class="text-red-500 font-bold text-xs uppercase">Trap 02</span>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">결과 중심의 칭찬</h4>
+                            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+                                "맞았어, 똑똑하네!" 결과에만 집중하면 아이는 다시 덤벙대며 답만 찍게 됩니다.
+                            </p>
+                            <div class="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-500 italic">
+                                대안: "이번에는 식을 세우는 단계가 아주 논리적이었어!"
+                            </div>
+                        </div>
+                        <div
+                            class="instruction-card dont-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <span class="text-red-500 font-bold text-xs uppercase">Trap 03</span>
+                            <h4 class="font-bold text-lg text-gray-800 mt-2">추상적인 지시어</h4>
+                            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+                                "꼼꼼히 읽어", "정신 차려" 같은 말은 실질적인 지침이 되지 못합니다.
+                            </p>
+                            <div class="mt-4 p-3 bg-gray-50 rounded text-xs text-gray-500 italic">
+                                대안: "문제에서 '단위'에 동그라미를 쳐보자."
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-gray-100 rounded-3xl p-8 border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">🔄 수업 적용 프로세스 (Classroom Workflow)
+                    </h2>
+
+                    <div class="max-w-3xl mx-auto space-y-6">
+                        <div class="protocol-step">
+                            <div class="step-number">1</div>
+                            <h5 class="font-bold text-gray-800">진단 단계</h5>
+                            <p class="text-sm text-gray-600">이전 오답노트 데이터를 통해 이 학생이 '읽기' 단계에서 틀리는지 '식 세우기' 단계에서 틀리는지
+                                파악합니다.</p>
+                        </div>
+                        <div class="protocol-step">
+                            <div class="step-number">2</div>
+                            <h5 class="font-bold text-gray-800">모델링 단계</h5>
+                            <p class="text-sm text-gray-600">교사가 시스템 인터페이스를 활용해 '생각 소리 내어 말하기'를 시연합니다.</p>
+                        </div>
+                        <div class="protocol-step">
+                            <div class="step-number">3</div>
+                            <h5 class="font-bold text-gray-800">비계 설정 단계 (Scaffolding)</h5>
+                            <p class="text-sm text-gray-600">학생이 시스템의 Wizard Step을 따라가게 하되, 막히는 부분에서만 전략적 발문을 제공합니다.</p>
+                        </div>
+                        <div class="protocol-step">
+                            <div class="step-number">4</div>
+                            <h5 class="font-bold text-gray-800">점진적 철회 단계 (Fading)</h5>
+                            <p class="text-sm text-gray-600">학생이 익숙해지면 시스템의 강제 단계(Wizard)를 하나씩 줄여나갑니다.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="mt-10 py-6 border-t border-gray-100 text-center">
+                    <p class="text-sm text-gray-400">
+                        성공적인 지도는 학생의 속도를 늦추는 것이 아니라, <strong>사고의 궤적을 올바르게 고정</strong>하는 것에서 시작합니다.
+                    </p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Original Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 1. Cognitive Load Chart (Line)
+            const ctxLoad = document.getElementById('loadChart').getContext('2d');
+            new Chart(ctxLoad, {
+                type: 'line',
+                data: {
+                    labels: ['도입', '전개 1', '전개 2', '절정', '마무리'],
+                    datasets: [{
+                        label: '지도가 없는 경우',
+                        data: [40, 75, 95, 100, 85],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    }, {
+                        label: '비계(Scaffolding) 적용 시',
+                        data: [30, 45, 55, 60, 40],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 110, ticks: { display: false }, title: { display: true, text: '인지 부하 수준' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Error Distribution Chart (Doughnut)
+            const ctxError = document.getElementById('errorDoughnutChart').getContext('2d');
+            new Chart(ctxError, {
+                type: 'doughnut',
+                data: {
+                    labels: ['도식 부재 (Schema)', '목표 상실 (Goal)', '연산 실수 (Ops)', '기타'],
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: ['#fbbf24', '#f87171', '#60a5fa', '#e5e7eb'],
+                        hoverOffset: 10,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: { size: 12, family: "'Noto Sans KR', sans-serif" }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
