@@ -232,37 +232,37 @@
                     <div class="step-number">2</div>
                     <h4 class="text-xl font-bold text-slate-800 mb-2">2번 실수가 일어난 지점</h4>
                     <p class="text-sm text-indigo-500 font-bold mb-4 italic">나의 사고 과정 중 어디가 막혔나요?</p>
-                    <div class="grid grid-cols-2 gap-3" id="error-options">
-                        <div class="relative">
+                    <div class="grid grid-cols-2 gap-4" id="error-options">
+                        <div class="relative h-full">
                             <input type="checkbox" id="err-read" class="hidden error-checkbox" data-label="읽기(Read)">
                             <label for="err-read"
-                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
-                                <span class="text-base font-bold text-slate-800">읽기 (Read)</span>
-                                <span class="text-xs text-slate-400 mt-1">조건 누락, 오독, 덤벙댐</span>
+                                class="flex flex-col p-6 h-32 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white justify-center">
+                                <span class="text-xl font-bold text-slate-800">읽기 (Read)</span>
+                                <span class="text-sm text-slate-400 mt-2">조건 누락, 오독, 덤벙댐</span>
                             </label>
                         </div>
-                        <div class="relative">
+                        <div class="relative h-full">
                             <input type="checkbox" id="err-plan" class="hidden error-checkbox" data-label="계획(Plan)">
                             <label for="err-plan"
-                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
-                                <span class="text-base font-bold text-slate-800">계획 (Plan)</span>
-                                <span class="text-xs text-slate-400 mt-1">개념 적용 오류, 식 세우기 실패</span>
+                                class="flex flex-col p-6 h-32 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white justify-center">
+                                <span class="text-xl font-bold text-slate-800">계획 (Plan)</span>
+                                <span class="text-sm text-slate-400 mt-2">개념 적용 오류, 식 세우기 실패</span>
                             </label>
                         </div>
-                        <div class="relative">
+                        <div class="relative h-full">
                             <input type="checkbox" id="err-calc" class="hidden error-checkbox" data-label="풀이(Solve)">
                             <label for="err-calc"
-                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
-                                <span class="text-base font-bold text-slate-800">풀이 (Solve)</span>
-                                <span class="text-xs text-slate-400 mt-1">단순 계산 실수, 부호 실수</span>
+                                class="flex flex-col p-6 h-32 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white justify-center">
+                                <span class="text-xl font-bold text-slate-800">풀이 (Solve)</span>
+                                <span class="text-sm text-slate-400 mt-2">단순 계산 실수, 부호 실수</span>
                             </label>
                         </div>
-                        <div class="relative">
+                        <div class="relative h-full">
                             <input type="checkbox" id="err-check" class="hidden error-checkbox" data-label="확인(Check)">
                             <label for="err-check"
-                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
-                                <span class="text-base font-bold text-slate-800">확인 (Check)</span>
-                                <span class="text-xs text-slate-400 mt-1">답안 마킹 실수, 단위 확인</span>
+                                class="flex flex-col p-6 h-32 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white justify-center">
+                                <span class="text-xl font-bold text-slate-800">확인 (Check)</span>
+                                <span class="text-sm text-slate-400 mt-2">답안 마킹 실수, 단위 확인</span>
                             </label>
                         </div>
                     </div>
@@ -272,20 +272,20 @@
                 <div class="step-block active">
                     <div class="step-number">3</div>
                     <h4 class="text-xl font-bold text-slate-800 mb-4">문제의 유형 (Schema)</h4>
-                    <div class="flex flex-wrap gap-2" id="schema-buttons">
+                    <div class="flex flex-wrap gap-4" id="schema-buttons">
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#합치기</button>
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#합치기</button>
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#비교하기</button>
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#비교하기</button>
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#변화하기</button>
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#변화하기</button>
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#전체와
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#전체와
                             부분</button>
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#나누기</button>
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#나누기</button>
                         <button onclick="toggleSchema(this)"
-                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#모양과
+                            class="schema-btn px-6 py-4 border-2 border-slate-200 rounded-2xl text-base font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all shadow-sm">#모양과
                             규칙</button>
                     </div>
                 </div>
@@ -295,21 +295,21 @@
                     <div class="step-number">4</div>
                     <h4 class="text-xl font-bold text-slate-800 mb-1">실수 방지 '브레이크' 장착</h4>
                     <p class="text-xs text-slate-400 mb-6">다시는 같은 실수를 반복하지 않기 위한 약속</p>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 group">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-6 group">
                             <div
-                                class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xs font-black shadow-sm group-hover:bg-emerald-200 transition-colors">
+                                class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-sm font-black shadow-sm group-hover:bg-emerald-200 transition-colors">
                                 DO</div>
                             <input type="text" id="input-do"
-                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-lg font-medium outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300"
+                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-4 text-xl font-medium outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300"
                                 placeholder="예: '단위' 부터 먼저 확인하기">
                         </div>
-                        <div class="flex items-center gap-4 group">
+                        <div class="flex items-center gap-6 group">
                             <div
-                                class="w-12 h-12 bg-red-100 text-red-700 rounded-xl flex items-center justify-center text-xs font-black shadow-sm group-hover:bg-red-200 transition-colors">
+                                class="w-16 h-16 bg-red-100 text-red-700 rounded-2xl flex items-center justify-center text-sm font-black shadow-sm group-hover:bg-red-200 transition-colors">
                                 STOP</div>
                             <input type="text" id="input-stop"
-                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-lg font-medium outline-none focus:border-red-500 transition-colors placeholder:text-slate-300"
+                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-4 text-xl font-medium outline-none focus:border-red-500 transition-colors placeholder:text-slate-300"
                                 placeholder="예: 암산으로 계산하지 않기">
                         </div>
                     </div>
