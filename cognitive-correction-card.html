@@ -63,17 +63,23 @@
                 display: none !important;
             }
 
+            .print-page-break {
+                page-break-before: always;
+                break-before: page;
+                height: 0;
+                display: block;
+                visibility: hidden;
+            }
+
             body {
                 padding: 0 !important;
                 margin: 0 !important;
                 background: white !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                /* A4 한 페이지에 맞추기 위한 축소 */
-                transform: scale(0.9);
+                transform: scale(0.95);
                 transform-origin: top left;
-                width: 110%;
-                /* scale 축소 보정 (1/0.9) */
+                width: 105%;
             }
 
             .print-area {
@@ -81,10 +87,8 @@
                 max-width: none !important;
                 margin: 0 !important;
                 padding: 10mm 15mm !important;
-                /* 좌우 여백 확보 */
             }
 
-            /* 인쇄 시 입력 폼(분석표)만 표시 */
             #input-view {
                 display: block !important;
                 opacity: 1 !important;
@@ -92,17 +96,8 @@
             }
 
             #input-view header {
+                margin-bottom: 1.5rem !important;
                 padding-bottom: 1rem !important;
-                margin-bottom: 2rem !important;
-            }
-
-            #input-view h1 {
-                font-size: 24px !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            #input-view p {
-                font-size: 14px !important;
             }
 
             #result-view,
@@ -110,107 +105,37 @@
                 display: none !important;
             }
 
-            /* 입력 필드 인쇄 최적화 */
             textarea,
             input[type="text"] {
-                border: 1px solid #94a3b8 !important;
+                border: 1px solid #cbd5e1 !important;
                 background: white !important;
-                border-radius: 8px !important;
-                min-height: 40px !important;
-                padding: 10px !important;
-                font-size: 12px !important;
-            }
-
-            textarea#input-problem {
-                min-height: 100px !important;
+                resize: none;
+                overflow: hidden;
             }
 
             .step-block {
-                border-left: 4px solid #6366f1 !important;
-                margin-bottom: 1.5rem !important;
-                padding-left: 1rem !important;
+                break-inside: avoid;
                 page-break-inside: avoid;
+                margin-bottom: 1.5rem !important;
+                border-left: 4px solid #6366f1 !important;
             }
 
-            .step-block h4 {
-                font-size: 16px !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .step-number {
-                width: 20px !important;
-                height: 20px !important;
-                font-size: 12px !important;
-                left: -10px !important;
-            }
-
-            /* 체크박스 그리드 조정 */
-            #error-options {
-                gap: 0.5rem !important;
-            }
-
-            #error-options label {
-                padding: 0.75rem !important;
-            }
-
-            #error-options span.text-lg {
-                font-size: 14px !important;
-            }
-
-            #error-options span.text-sm {
-                font-size: 10px !important;
-            }
-
-            /* Schema 버튼 크기 조정 */
-            .schema-btn {
-                padding: 0.25rem 0.75rem !important;
-                font-size: 11px !important;
-            }
-
-            /* 체크박스 인쇄 시 시각화 유지 */
-            .error-checkbox:checked+label {
+            /* Ensure Checkbox styles print correctly */
+            input[type="checkbox"]:checked+label {
                 background-color: #f5f3ff !important;
                 border-color: #a78bfa !important;
                 color: #4c1d95 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-
-            /* DO/STOP 섹션 */
-            .w-14 {
-                width: 3rem !important;
-                height: 3rem !important;
-                font-size: 10px !important;
-            }
-
-            /* 하단 버튼 숨김 */
-            .pt-10 {
-                display: none !important;
-            }
         }
 
-        /* 화면 표시용 테이블 스타일 */
-        .analysis-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-
-        .analysis-table th,
-        .analysis-table td {
-            padding: 1.25rem;
-            border: 1px solid #e2e8f0;
-        }
-
-        .analysis-table th {
-            background-color: #f8fafc;
+        .sub-step-title {
+            font-size: 0.95rem;
             font-weight: 700;
             color: #475569;
-            text-align: left;
-            width: 30%;
+            margin-bottom: 0.5rem;
+            display: block;
         }
     </style>
 </head>
@@ -220,264 +145,205 @@
     <div class="max-w-3xl mx-auto print-area">
 
         <!-- View 1: Input Form -->
-        <section id="input-view" class="space-y-12 animate-in slide-in-from-bottom fade-in duration-700">
+        <section id="input-view" class="space-y-8 animate-in slide-in-from-bottom fade-in duration-700">
 
-            <header class="border-b border-slate-100 pb-10 flex justify-between items-end">
-                <div>
-                    <h1 class="text-4xl font-black text-slate-900 tracking-tight mb-3">인지 교정 분석표</h1>
-                    <p class="text-slate-400 font-medium text-lg leading-relaxed">문제를 분석하고 나만의 실수 방지 약속을 설계하세요.</p>
-                </div>
-                <button onclick="window.print()"
-                    class="no-print mb-3 px-6 py-3 bg-indigo-50 text-indigo-600 font-bold rounded-2xl hover:bg-indigo-100 transition-all flex items-center gap-2 border border-indigo-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                    </svg>
-                    <span>분석표 인쇄</span>
-                </button>
-            </header>
-
-            <!-- Step 1: Capture Problem -->
-            <div class="step-block active">
-                <div class="step-number">1</div>
-                <h4 class="text-xl font-bold text-slate-800 mb-4">어떤 문제였나요?</h4>
-                <textarea id="input-problem"
-                    class="w-full p-6 bg-slate-50 border border-slate-200 rounded-3xl text-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-300 min-h-[150px]"
-                    placeholder="문제를 간략하게 적어주세요..."></textarea>
-            </div>
-
-            <!-- Step 2: Diagnostic -->
-            <div class="step-block active">
-                <div class="step-number">2</div>
-                <h4 class="text-xl font-bold text-slate-800 mb-1">실제 '실수'가 일어난 지점은 어디인가요?</h4>
-                <p class="text-sm text-indigo-500 font-bold mb-6 italic">솔직하게 선택해야 뇌가 교정됩니다.</p>
-                <div class="grid grid-cols-2 gap-4" id="error-options">
-                    <div class="relative">
-                        <input type="checkbox" id="err-read" class="hidden error-checkbox" data-label="읽기(Read)">
-                        <label for="err-read"
-                            class="flex flex-col p-6 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white">
-                            <span class="text-lg font-bold text-slate-800">읽기(Read)</span>
-                            <span class="text-sm text-slate-400 mt-1">문제 끝까지 안 읽음</span>
-                        </label>
+            <!-- PAGE 1 -->
+            <div>
+                <header class="border-b border-slate-100 pb-6 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight mb-2">인지 교정 분석표</h1>
+                        <p class="text-slate-500 font-medium text-sm">문제 원인 분석 및 교정 전략 수립</p>
                     </div>
-                    <div class="relative">
-                        <input type="checkbox" id="err-plan" class="hidden error-checkbox" data-label="계획(Plan)">
-                        <label for="err-plan"
-                            class="flex flex-col p-6 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white">
-                            <span class="text-lg font-bold text-slate-800">계획(Plan)</span>
-                            <span class="text-sm text-slate-400 mt-1">유형을 잘못 파악함</span>
-                        </label>
-                    </div>
-                    <div class="relative">
-                        <input type="checkbox" id="err-calc" class="hidden error-checkbox" data-label="계산(Solve)">
-                        <label for="err-calc"
-                            class="flex flex-col p-6 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white">
-                            <span class="text-lg font-bold text-slate-800">계산(Solve)</span>
-                            <span class="text-sm text-slate-400 mt-1">단순한 연산 실수</span>
-                        </label>
-                    </div>
-                    <div class="relative">
-                        <input type="checkbox" id="err-check" class="hidden error-checkbox" data-label="확인(Check)">
-                        <label for="err-check"
-                            class="flex flex-col p-6 border-2 border-slate-100 rounded-3xl cursor-pointer transition-all hover:border-indigo-200 bg-white">
-                            <span class="text-lg font-bold text-slate-800">확인(Check)</span>
-                            <span class="text-sm text-slate-400 mt-1">다른 걸 구함(함정)</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Schema Tagging -->
-            <div class="step-block active">
-                <div class="step-number">3</div>
-                <h4 class="text-xl font-bold text-slate-800 mb-6">이 문제의 유형(Schema)은?</h4>
-                <div class="flex flex-wrap gap-3" id="schema-buttons">
-                    <button onclick="toggleSchema(this)"
-                        class="schema-btn px-6 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#합치기</button>
-                    <button onclick="toggleSchema(this)"
-                        class="schema-btn px-6 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#비교하기</button>
-                    <button onclick="toggleSchema(this)"
-                        class="schema-btn px-6 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#변화하기</button>
-                    <button onclick="toggleSchema(this)"
-                        class="schema-btn px-6 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#전체와
-                        부분</button>
-                    <button onclick="toggleSchema(this)"
-                        class="schema-btn px-6 py-3 border border-slate-200 rounded-2xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#나누기</button>
-                </div>
-            </div>
-
-            <!-- Step 4: Reconstruction -->
-            <div class="step-block active">
-                <div class="step-number">4</div>
-                <h4 class="text-xl font-bold text-slate-800 mb-1">실수 방지 '브레이크' 장착하기</h4>
-                <p class="text-sm text-slate-400 mb-8">다시는 감점에 휘말리지 않을 나만의 약속.</p>
-                <div class="space-y-6">
-                    <div class="flex items-center gap-6 group">
-                        <div
-                            class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-sm font-black shadow-sm group-hover:bg-emerald-200 transition-colors">
-                            DO</div>
-                        <input type="text" id="input-do"
-                            class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-xl font-medium outline-none focus:border-emerald-500 transition-colors"
-                            placeholder="예: '모두'라는 단어에 별표 치기">
-                    </div>
-                    <div class="flex items-center gap-6 group">
-                        <div
-                            class="w-14 h-14 bg-red-100 text-red-700 rounded-2xl flex items-center justify-center text-sm font-black shadow-sm group-hover:bg-red-200 transition-colors">
-                            STOP</div>
-                        <input type="text" id="input-stop"
-                            class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-xl font-medium outline-none focus:border-red-500 transition-colors"
-                            placeholder="예: 숫자만 보고 바로 더하지 않기">
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-10">
-                <button onclick="generateResult()"
-                    class="w-full py-6 bg-slate-900 text-white font-black rounded-3xl shadow-2xl shadow-slate-200 hover:bg-black transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 text-xl">
-                    <span>분석 완료 및 리포트 보기</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
-        </section>
-
-        <!-- View 2: Result Card (Full Display) -->
-        <section id="result-view" class="hidden-view space-y-10 animate-in zoom-in-95 fade-in duration-500">
-
-            <header class="border-b-2 border-slate-900 pb-8">
-                <div class="flex justify-between items-start mb-6">
-                    <span
-                        class="px-3 py-1 bg-indigo-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Cognitive
-                        Correction Report</span>
-                    <span id="result-date" class="text-sm text-slate-400 font-bold">2026.01.07</span>
-                </div>
-                <h2 class="text-4xl font-black text-slate-900 tracking-tight">인지 교정 분석 카드</h2>
-            </header>
-
-            <div class="grid gap-10">
-                <!-- Problem Summary -->
-                <div>
-                    <h4 class="text-xs font-black text-slate-400 uppercase mb-4 tracking-[0.2em]">분석 대상 문제 (Target
-                        Problem)</h4>
-                    <p id="res-problem" class="text-2xl font-bold text-slate-800 leading-tight">입력된 문제가 없습니다.</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-10">
-                    <!-- Error Location -->
-                    <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100">
-                        <h4 class="text-xs font-black text-indigo-500 uppercase mb-4 tracking-widest">취약 지점 (Bottleneck)
-                        </h4>
-                        <div id="res-errors" class="flex flex-wrap gap-2 text-indigo-900 font-black text-xl">
-                            -
-                        </div>
-                    </div>
-                    <!-- Schema -->
-                    <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100">
-                        <h4 class="text-xs font-black text-slate-400 uppercase mb-4 tracking-widest">문제 유형 (Schema)</h4>
-                        <div id="res-schemas" class="flex flex-wrap gap-3 text-slate-700 font-black text-xl">
-                            -
-                        </div>
-                    </div>
-                </div>
-
-                <!-- The Promises -->
-                <div class="space-y-6">
-                    <div class="flex items-start gap-6">
-                        <div
-                            class="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex-shrink-0 flex items-center justify-center text-sm font-black shadow-lg shadow-emerald-100 italic">
-                            DO</div>
-                        <div class="pt-1">
-                            <p class="text-xs text-emerald-600 font-black uppercase tracking-widest mb-1">성공을 위한 유일한 행동
-                            </p>
-                            <p id="res-do" class="text-2xl font-black text-slate-900 leading-tight">-</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6">
-                        <div
-                            class="w-16 h-16 bg-red-600 text-white rounded-2xl flex-shrink-0 flex items-center justify-center text-sm font-black shadow-lg shadow-red-100 italic">
-                            STOP</div>
-                        <div class="pt-1">
-                            <p class="text-xs text-red-600 font-black uppercase tracking-widest mb-1">반드시 멈춰야 할 습관</p>
-                            <p id="res-stop" class="text-2xl font-black text-slate-900 leading-tight">-</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer & Controls -->
-            <div
-                class="pt-12 border-t border-slate-100 flex flex-col md:flex-row gap-6 items-center justify-between no-print">
-                <button onclick="goBack()"
-                    class="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    내용 수정하기
-                </button>
-                <div class="flex gap-4 w-full md:w-auto">
-                    <button id="toggle-card-btn" onclick="toggleResultView()"
-                        class="flex-1 md:flex-none px-6 py-5 bg-slate-100 text-slate-700 font-bold rounded-3xl hover:bg-slate-200 transition-all flex items-center justify-center gap-2">
-                        <span>카드 형식으로 보기</span>
-                    </button>
                     <button onclick="window.print()"
-                        class="flex-1 md:flex-none px-10 py-5 bg-indigo-600 text-white font-black rounded-3xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all transform active:scale-95 flex items-center justify-center gap-2">
-                        <span>분석표 PDF 저장 / 인쇄</span>
+                        class="no-print px-5 py-2.5 bg-indigo-50 text-indigo-600 font-bold rounded-xl hover:bg-indigo-100 transition-all flex items-center gap-2 border border-indigo-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                         </svg>
+                        <span>인쇄하기</span>
                     </button>
+                </header>
+
+                <!-- 1. 문제에 대한 이해 -->
+                <div class="step-block active">
+                    <div class="step-number">1</div>
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold text-slate-800">문제에 대한 이해 및 분석</h4>
+                        <p class="text-xs text-slate-400 mt-1">문제를 완전히 내 것으로 만드는 과정입니다.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- 1. 문제 내용 -->
+                        <div>
+                            <span class="sub-step-title">1. 문제 내용 (이해)</span>
+                            <textarea id="input-problem"
+                                class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-300 min-h-[80px]"
+                                placeholder="문제를 요약하거나 핵심 내용을 적어주세요."></textarea>
+                        </div>
+
+                        <!-- 2. 사용된 개념 -->
+                        <div>
+                            <span class="sub-step-title">2. 문제 풀이에 사용되는 개념</span>
+                            <textarea id="input-concepts"
+                                class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-300 min-h-[60px]"
+                                placeholder="이 문제 해결에 필요한 공식, 정리, 개념은 무엇인가요?"></textarea>
+                        </div>
+
+                        <!-- 3. 나의 풀이 -->
+                        <div>
+                            <span class="sub-step-title">3. 이 문제에 대한 나의 풀이</span>
+                            <textarea id="input-my-solution"
+                                class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-300 min-h-[120px]"
+                                placeholder="내가 실제로 시도했던 풀이 과정을 적어보세요."></textarea>
+                        </div>
+
+                        <!-- 4 & 5. 답지와 비교 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="sub-step-title">4. 이 문제에 대한 답지(해설)</span>
+                                <textarea id="input-answer-key"
+                                    class="w-full p-4 bg-pink-50 border border-pink-100 rounded-xl text-base focus:ring-2 focus:ring-pink-500 focus:bg-white outline-none transition-all placeholder:text-pink-300 min-h-[120px]"
+                                    placeholder="정답지의 풀이를 요약해서 적어보세요."></textarea>
+                            </div>
+                            <div>
+                                <span class="sub-step-title">5. 나의 풀이와 답지의 차이점</span>
+                                <textarea id="input-difference"
+                                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-300 min-h-[120px]"
+                                    placeholder="어느 부분에서 생각이 달랐나요?"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <p class="text-center text-slate-200 text-[10px] tracking-[0.5em] font-black uppercase py-10 no-print">
-                MATHESIS LAB CORE SYSTEM</p>
+            <!-- Page Break -->
+            <div class="print-page-break"></div>
+
+            <!-- PAGE 2 -->
+            <div class="page-2-content space-y-8 pt-4">
+
+                <div class="hidden print:block mb-6 border-b border-slate-100 pb-2">
+                    <span class="text-sm font-bold text-slate-400">인지 교정 분석표 - Page 2</span>
+                </div>
+
+                <!-- Step 2: Diagnostic -->
+                <div class="step-block active">
+                    <div class="step-number">2</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">2번 실수가 일어난 지점</h4>
+                    <p class="text-sm text-indigo-500 font-bold mb-4 italic">나의 사고 과정 중 어디가 막혔나요?</p>
+                    <div class="grid grid-cols-2 gap-3" id="error-options">
+                        <div class="relative">
+                            <input type="checkbox" id="err-read" class="hidden error-checkbox" data-label="읽기(Read)">
+                            <label for="err-read"
+                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
+                                <span class="text-base font-bold text-slate-800">읽기 (Read)</span>
+                                <span class="text-xs text-slate-400 mt-1">조건 누락, 오독, 덤벙댐</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="err-plan" class="hidden error-checkbox" data-label="계획(Plan)">
+                            <label for="err-plan"
+                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
+                                <span class="text-base font-bold text-slate-800">계획 (Plan)</span>
+                                <span class="text-xs text-slate-400 mt-1">개념 적용 오류, 식 세우기 실패</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="err-calc" class="hidden error-checkbox" data-label="풀이(Solve)">
+                            <label for="err-calc"
+                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
+                                <span class="text-base font-bold text-slate-800">풀이 (Solve)</span>
+                                <span class="text-xs text-slate-400 mt-1">단순 계산 실수, 부호 실수</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="err-check" class="hidden error-checkbox" data-label="확인(Check)">
+                            <label for="err-check"
+                                class="flex flex-col p-4 border-2 border-slate-100 rounded-2xl cursor-pointer transition-all hover:border-indigo-200 bg-white h-full justify-center">
+                                <span class="text-base font-bold text-slate-800">확인 (Check)</span>
+                                <span class="text-xs text-slate-400 mt-1">답안 마킹 실수, 단위 확인</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Schema Tagging -->
+                <div class="step-block active">
+                    <div class="step-number">3</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-4">문제의 유형 (Schema)</h4>
+                    <div class="flex flex-wrap gap-2" id="schema-buttons">
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#합치기</button>
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#비교하기</button>
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#변화하기</button>
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#전체와
+                            부분</button>
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#나누기</button>
+                        <button onclick="toggleSchema(this)"
+                            class="schema-btn px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-indigo-400 hover:bg-indigo-50 transition-all">#모양과
+                            규칙</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Prevention -->
+                <div class="step-block active">
+                    <div class="step-number">4</div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-1">실수 방지 '브레이크' 장착</h4>
+                    <p class="text-xs text-slate-400 mb-6">다시는 같은 실수를 반복하지 않기 위한 약속</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 group">
+                            <div
+                                class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xs font-black shadow-sm group-hover:bg-emerald-200 transition-colors">
+                                DO</div>
+                            <input type="text" id="input-do"
+                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-lg font-medium outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-300"
+                                placeholder="예: '단위' 부터 먼저 확인하기">
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div
+                                class="w-12 h-12 bg-red-100 text-red-700 rounded-xl flex items-center justify-center text-xs font-black shadow-sm group-hover:bg-red-200 transition-colors">
+                                STOP</div>
+                            <input type="text" id="input-stop"
+                                class="flex-1 bg-transparent border-b-2 border-slate-100 p-2 text-lg font-medium outline-none focus:border-red-500 transition-colors placeholder:text-slate-300"
+                                placeholder="예: 암산으로 계산하지 않기">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="pt-8 no-print">
+                    <button onclick="generateResult()"
+                        class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl shadow-slate-200 hover:bg-black transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
+                        <span>분석 완료 및 결과 저장</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <p class="text-center text-slate-300 text-xs mt-4">작성 내용을 저장하려면 상단의 [인쇄하기]를 눌러 PDF로 저장하세요.</p>
+                </div>
+            </div>
 
         </section>
 
-        <!-- View 3: Table View (Formal Output) -->
-        <section id="table-view" class="hidden-view space-y-8 animate-in fade-in duration-500">
-            <header class="border-b-2 border-slate-900 pb-6 mb-8">
-                <h2 class="text-3xl font-black text-slate-900 tracking-tight text-center">인지 교정 분석표</h2>
-                <p class="text-center text-slate-500 font-bold mt-2" id="table-date">2026.01.07</p>
-            </header>
-
-            <table class="analysis-table">
-                <tr>
-                    <th>분석 대상 문제</th>
-                    <td id="table-problem" class="font-bold text-slate-800"></td>
-                </tr>
-                <tr>
-                    <th>취약 지점 (Bottleneck)</th>
-                    <td id="table-errors" class="text-indigo-600 font-bold"></td>
-                </tr>
-                <tr>
-                    <th>문제 유형 (Schema)</th>
-                    <td id="table-schemas" class="text-slate-700 font-bold"></td>
-                </tr>
-                <tr>
-                    <th>성공을 위한 행동 (DO)</th>
-                    <td id="table-do" class="text-emerald-700 font-bold"></td>
-                </tr>
-                <tr>
-                    <th>멈춰야 할 습관 (STOP)</th>
-                    <td id="table-stop" class="text-red-700 font-bold"></td>
-                </tr>
-            </table>
-
-            <div class="pt-8 no-print flex justify-center">
-                <button onclick="toggleResultView()"
-                    class="px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-black transition-all">
-                    결과 카드 형식으로 보기
-                </button>
+        <!-- View 2: Result Card (Hidden by default in this new layout logic) -->
+        <section id="result-view" class="hidden-view space-y-10 animate-in zoom-in-95 fade-in duration-500">
+            <!-- Placeholder for result logic completeness -->
+            <div class="text-center py-20">
+                <h2 class="text-2xl font-bold">분석이 완료되었습니다.</h2>
+                <p class="text-slate-500 mb-6">작성한 내용을 바탕으로 PDF로 저장하시겠습니까?</p>
+                <button onclick="goBack()" class="px-6 py-3 bg-indigo-600 text-white rounded-xl">다시 수정하기</button>
             </div>
+        </section>
+
+        <!-- View 3: Table View (Hidden) -->
+        <section id="table-view" class="hidden-view">
         </section>
 
     </div>
@@ -491,64 +357,27 @@
         }
 
         function generateResult() {
-            // 1. Collect Data
-            const problem = document.getElementById('input-problem').value || "입력된 내용 없음";
-            const doAction = document.getElementById('input-do').value || "설정된 약속 없음";
-            const stopAction = document.getElementById('input-stop').value || "설정된 약속 없음";
+            // In this refactored version, the focus is on the Input Form itself being the report.
+            // The "Generate Result" button now acts closer to a "Review / Save" prompt.
+            // For now, prompt the print dialog or just alert analysis complete.
 
-            const errorPoints = Array.from(document.querySelectorAll('.error-checkbox:checked'))
-                .map(cb => cb.dataset.label);
+            const problem = document.getElementById('input-problem').value;
 
-            const schemas = Array.from(document.querySelectorAll('.schema-btn.active-schema'))
-                .map(btn => btn.innerText);
-
-            const now = new Date();
-            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-
-            // 2. Bind Data to Result View (Card)
-            document.getElementById('res-problem').innerText = problem;
-            document.getElementById('res-do').innerText = doAction;
-            document.getElementById('res-stop').innerText = stopAction;
-            document.getElementById('res-errors').innerHTML = errorPoints.length > 0
-                ? errorPoints.map(p => `<span class="mr-3">#${p}</span>`).join('')
-                : "미지정";
-            document.getElementById('res-schemas').innerHTML = schemas.length > 0
-                ? schemas.join(' ')
-                : "미지정";
-            document.getElementById('result-date').innerText = dateStr;
-
-            // 3. Bind Data to Table View
-            document.getElementById('table-problem').innerText = problem;
-            document.getElementById('table-do').innerText = doAction;
-            document.getElementById('table-stop').innerText = stopAction;
-            document.getElementById('table-errors').innerText = errorPoints.length > 0 ? errorPoints.join(', ') : "미지정";
-            document.getElementById('table-schemas').innerText = schemas.length > 0 ? schemas.join(', ') : "미지정";
-            document.getElementById('table-date').innerText = dateStr;
-
-            // 4. Toggle View (Show Table by default as requested)
-            document.getElementById('input-view').classList.add('hidden-view');
-            document.getElementById('table-view').classList.remove('hidden-view');
-            document.getElementById('result-view').classList.add('hidden-view');
-            window.scrollTo(0, 0);
-        }
-
-        function toggleResultView() {
-            const resultView = document.getElementById('result-view');
-            const tableView = document.getElementById('table-view');
-
-            if (resultView.classList.contains('hidden-view')) {
-                resultView.classList.remove('hidden-view');
-                tableView.classList.add('hidden-view');
-            } else {
-                resultView.classList.add('hidden-view');
-                tableView.classList.remove('hidden-view');
+            if (!problem.trim()) {
+                alert("문제 내용을 1번 항목에 작성해주세요.");
+                document.getElementById('input-problem').focus();
+                return;
             }
-            window.scrollTo(0, 0);
+
+            // Simple Interaction: Scroll to top and maybe trigger print
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                alert("분석이 완료되었습니다. [인쇄하기] 버튼을 눌러 PDF로 저장하세요.");
+            }, 500);
         }
 
         function goBack() {
             document.getElementById('result-view').classList.add('hidden-view');
-            document.getElementById('table-view').classList.add('hidden-view');
             document.getElementById('input-view').classList.remove('hidden-view');
             window.scrollTo(0, 0);
         }
